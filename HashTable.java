@@ -1,4 +1,6 @@
-public class HashNode<K,V> {
+import java.util.*;
+
+class HashNode<K,V> {
   K key;
   V value;
   HashNode<K,V> next;
@@ -9,7 +11,7 @@ public class HashNode<K,V> {
   }
 }
 
-public class HashTable<K,V> {
+class HashTable<K,V> {
   private ArrayList<HashNode<K,V>> bucket;
   private int numBuckets;
   private int size;
@@ -19,7 +21,7 @@ public class HashTable<K,V> {
     this.numBuckets = numBuckets;
 
     // Create empty chains
-    for (int i = 0; i < numbuckets; i++) {
+    for (int i = 0; i < numBuckets; i++) {
       bucket.add(null);
     }
   }
