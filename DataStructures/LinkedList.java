@@ -114,4 +114,76 @@ class LinkedList {
     Node next = temp.next.next;
     temp.next = next;
   }
+
+  // Get the middle of the linked list
+  public Node getMiddle(Node head) {
+    if (head == null) {
+      return head;
+    }
+
+    Node fastpointer = head.next;
+    Node slowpointer = head;
+
+    // Move fastpointer by two and slow by one
+    // When fast pointer is at end, then slow is at middle
+    while (fastpointer != null) {
+      fastpointer = fastpointer.next;
+      if (fastpointer != null) {
+        // Move again
+        fastpointer = fastpointer.next;
+        slowpointer = slowpointer.next;
+      }
+    }
+    return slowpointer;
+  }
+
+  public Node sortedMerge(Node a, Node b) {
+    Node result = null;
+
+    // Base cases: if the lists run out, then its just the rest of the other list.
+    if (a == null) {
+      return b;
+    }
+    if (b == null) {
+      return a;
+    }
+
+    // Pick either a or b and recur
+    if (a.data <= b.data) {
+      result = a;
+      result.next = sortedMerge(a.next, b);
+    }
+    else {
+      result = b;
+      result.next = sortedMerge(a, b.next);
+    }
+    return result;
+  }
+
+  // Merge sort for linked lists
+  public Node mergeSort(Node head) {
+    // Base case: if head is null or if last
+    if (head == null || head.next == null) {
+      return head;
+    }
+
+    // get the middle of the list
+    Node middle = getMiddle(head);
+    Node nextofmiddle = middle.next;
+
+    // set next of middle to null (split into two lists)
+    middle.next = null;
+
+    // Apply mergeSort on left list
+    Node left = mergeSort(head);
+
+    // Apply mergeSort on right lisst
+    Node right = mergeSort(nextofmiddle);
+
+    // Merge left and right lists
+    Node sortedList = sortedMerge(left, right);
+
+    return sortedList;
+  }
+
 }
