@@ -100,25 +100,23 @@ class ArrayAndStringsPractice {
 
   public static boolean palin_perm(String input) {
     input = input.toLowerCase();
+    int countOdd = 0;
     int[] count = new int[128];
     for (int i = 0; i < input.length(); i++) {
-      if(input.charAt(i) == ' ') {
+      int x = input.charAt(i);
+      if(x == ' ') {
         continue;
       }
       else {
-        count[input.charAt(i)]++;
+        count[x]++;
+        if ((count[x] % 2) == 1) {
+          countOdd++;
+        } else {
+          countOdd--;
+        }
       }
     }
-    int counter = 0;
-    for (int j = 0; j < count.length - 1; j++) {
-      if (count[j] % 2 != 0) {
-        counter++;
-      }
-    }
-    if (counter > 1) {
-      return false;
-    }
-    return true;
+    return countOdd <= 1;
   }
 
   static boolean oneEditReplace(String s1, String s2) {

@@ -125,4 +125,65 @@ public class TreesAndGraphsPractice {
 
     return true;
   }
+
+  public static Node inOrderSucc(Node n) {
+    if (n == null) { return null; }
+
+    // Found a right subtree, return leftmost node of that tree
+    if (n.right != null) {
+      return leftMostChild(n.right);
+    }
+    else {
+      Node q = n;
+      Node parent = q.parent;
+      // Go up until we are a left child
+      while (parent != null && parent.left != q) {
+        q = parent;
+        parent = parent.parent;
+      }
+      return parent;
+    }
+  }
+
+  Node leftMostChild(Node n) {
+    if (n == null) { return null; }
+    while (n.left != null) {
+      n = n.left;
+    }
+    return n;
+  }
+
+  Node commonAncestor(Node root, Node p, Node q) {
+    // Check if either node is not in the tree or if one covers the other
+    if (!covers(root, p) || !covers(root, q)) {
+      return null;
+    } else if (covers(p, q)) {
+      return p;
+    } else if (covers(q, p)) {
+      return q;
+    }
+
+    // Traverse upwards until you find a node that covers q
+    Node sibling = getSibling(p);
+    Node parent = p.parent;
+    while (!covers(sibling, q)) {
+      sibling = getSibling(parent);
+      parent = parent.parent;
+    }
+    return parent;
+  }
+
+  boolean covers(Node root, Node p) {
+    if (root == null) return false;
+    if (root == p) return true;
+    return covers(root.left, p) || covers(root.right, p);
+  }
+
+  Node getSibling(Node node) {
+    if (node.parent.left == node) {
+      return node.parent.right;
+    } else if (node.parent.right == node) {
+      return node.parent.left;
+    }
+  }
 }

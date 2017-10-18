@@ -187,4 +187,106 @@ public class LinkedListPractice {
 
     printList(sumlists_recur(n1, n2, 0));
   }
+
+  // Reverse a linkedlist and return that cloned list
+  Node reverseAndClone(Node node) {
+    Node head = null;
+    while (node != null) {
+      Node n = new Node(node.data); // Clone
+      n.next = head;
+      head = n;
+      node = node.next
+    }
+    return head;
+  }
+
+  boolean isPalindrome(Node head) {
+    Node reversed = reverseAndClone(head);
+    return isEqual(head, reversed);
+  }
+
+  boolean isEqual(Node l1, Node l2) {
+    while (l1 != null && l2 != null) {
+      if (l1.data != two.data) {
+        return false;
+      }
+      one = one.next;
+      two = two.next;
+    }
+    return one == null && two == null;
+  }
+
+  boolean isPalindromeStack(Node head) {
+    Node fast = head;
+    Node slow = head;
+
+    Stack<Integer> stack = new Stack<Integer>();
+
+    while (fast != null && fast.next != null) {
+      stack.push(slow.data);
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    // Skip middle, dont want to compare since its a palindrome
+    if (fast != null) {
+      slow = slow.next;
+    }
+
+    while (slow != null) {
+      Integer top = stack.pop();
+      if (slow.data != top) {
+        return false;
+      }
+      slow = slow.next;
+    }
+    return true;
+  }
+
+  boolean isCircular(Node head) {
+    if (head == null || head.next == null) {
+      return false;
+    }
+    Node fast = head;
+    Node slow = head;
+    while(fast != null && fast.next != null && slow != null) {
+      if (fast == slow) {
+        return true;
+      }
+      fast = fast.next.next;
+      slow = slow.next;
+    }
+    return false;
+  }
+
+  void findCircularDelete(Node head) {
+    if (head == null || head.next == null) {
+      return;
+    }
+    Node fast = head;
+    Node slow = head;
+    while(fast != null && fast.next != null && slow != null) {
+      if (fast == slow) {
+        break;
+      }
+      fast = fast.next.next;
+      slow = slow.next;
+    }
+
+    // Error check at end of the while loop, when there is no circular
+    if (fast == null || fast.next == null) {
+      return;
+    }
+
+    // Found the circular point
+    if (slow == fast) {
+      slow = head;
+      while (slow.next != fast.next) {
+        slow = slow.next;
+        fast = fast.next;
+      }
+      // Fast will now be at the looping point
+      fast.next = null;
+    }
+  }
 }
